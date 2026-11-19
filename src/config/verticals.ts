@@ -20,6 +20,7 @@ export interface Vertical {
   category: VerticalCategory;
   status: VerticalStatus;
   statusLabel: string;
+  isLive: boolean;
   subdomain: string;
   url: string;
   githubUrl?: string;
@@ -64,6 +65,7 @@ export const verticals: Vertical[] = [
     category: "SaaS Products",
     status: "Live",
     statusLabel: "Live on reelsmith.etikoppa.in",
+    isLive: true,
     subdomain: "reelsmith.etikoppa.in",
     url: "https://reelsmith.etikoppa.in",
     githubUrl: "https://github.com/etikoppa/reelsmith",
@@ -117,6 +119,7 @@ export const verticals: Vertical[] = [
     category: "Enterprise Platforms",
     status: "In Development",
     statusLabel: "In Development • suite.etikoppa.in",
+    isLive: false,
     subdomain: "suite.etikoppa.in",
     url: "https://suite.etikoppa.in",
     githubUrl: "https://github.com/etikoppa",
@@ -163,6 +166,7 @@ export const verticals: Vertical[] = [
     category: "Enterprise Platforms",
     status: "Coming Soon",
     statusLabel: "Coming Soon • crm.etikoppa.in",
+    isLive: false,
     subdomain: "crm.etikoppa.in",
     url: "https://crm.etikoppa.in",
     githubUrl: "https://github.com/etikoppa",
@@ -209,6 +213,7 @@ export const verticals: Vertical[] = [
     category: "SaaS Products",
     status: "Coming Soon",
     statusLabel: "Coming Soon • commerce.etikoppa.in",
+    isLive: false,
     subdomain: "commerce.etikoppa.in",
     url: "https://commerce.etikoppa.in",
     githubUrl: "https://github.com/etikoppa",
@@ -255,6 +260,7 @@ export const verticals: Vertical[] = [
     category: "Developer Tools",
     status: "Beta",
     statusLabel: "Active on GitHub",
+    isLive: true,
     subdomain: "github.com/etikoppa",
     url: "https://github.com/etikoppa",
     githubUrl: "https://github.com/etikoppa",

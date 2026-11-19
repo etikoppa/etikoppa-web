@@ -133,49 +133,84 @@ export function Navbar() {
                 </div>
 
                 <div className="space-y-1">
-                  {verticals.map((vertical) => (
-                    <a
-                      key={vertical.slug}
-                      href={vertical.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      role="menuitem"
-                      onClick={() => setLauncherOpen(false)}
-                      className="group flex items-start gap-3 rounded-xl p-2.5 transition-colors hover:bg-slate-100/90 dark:hover:bg-slate-800/80"
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={vertical.logoPath}
-                        alt=""
-                        width={36}
-                        height={36}
-                        className="mt-0.5 h-9 w-9 shrink-0 rounded-lg"
-                      />
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="truncate text-sm font-semibold text-slate-900 group-hover:text-indigo-600 dark:text-white dark:group-hover:text-indigo-300">
-                            {vertical.name}
-                          </span>
-                          <span className="inline-flex shrink-0 items-center gap-1.5 text-[11px] font-medium text-slate-500 dark:text-slate-400">
-                            <span
-                              className={cn(
-                                "h-1.5 w-1.5 rounded-full",
-                                statusDotClass(vertical.status)
-                              )}
-                            />
-                            {vertical.status}
-                          </span>
+                  {verticals.map((vertical) =>
+                    vertical.isLive ? (
+                      <a
+                        key={vertical.slug}
+                        href={vertical.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        role="menuitem"
+                        onClick={() => setLauncherOpen(false)}
+                        className="group flex items-start gap-3 rounded-xl p-2.5 transition-colors hover:bg-slate-100/90 dark:hover:bg-slate-800/80"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={vertical.logoPath}
+                          alt=""
+                          width={36}
+                          height={36}
+                          className="mt-0.5 h-9 w-9 shrink-0 rounded-lg"
+                        />
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="truncate text-sm font-semibold text-slate-900 group-hover:text-indigo-600 dark:text-white dark:group-hover:text-indigo-300">
+                              {vertical.name}
+                            </span>
+                            <span className="inline-flex shrink-0 items-center gap-1.5 text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                              <span
+                                className={cn(
+                                  "h-1.5 w-1.5 rounded-full",
+                                  statusDotClass(vertical.status)
+                                )}
+                              />
+                              {vertical.status}
+                            </span>
+                          </div>
+                          <p className="mt-0.5 line-clamp-1 text-xs text-slate-600 dark:text-slate-400">
+                            {vertical.shortDescription}
+                          </p>
+                          <div className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-indigo-600 dark:text-indigo-400">
+                            <span>{vertical.subdomain}</span>
+                            <ExternalLink className="h-3 w-3" />
+                          </div>
                         </div>
-                        <p className="mt-0.5 line-clamp-1 text-xs text-slate-600 dark:text-slate-400">
-                          {vertical.shortDescription}
-                        </p>
-                        <div className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-indigo-600 dark:text-indigo-400">
-                          <span>{vertical.subdomain}</span>
-                          <ExternalLink className="h-3 w-3" />
+                      </a>
+                    ) : (
+                      <div
+                        key={vertical.slug}
+                        role="menuitem"
+                        aria-disabled="true"
+                        className="flex cursor-not-allowed items-start gap-3 rounded-xl p-2.5 opacity-50 grayscale select-none"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={vertical.logoPath}
+                          alt=""
+                          width={36}
+                          height={36}
+                          className="mt-0.5 h-9 w-9 shrink-0 rounded-lg"
+                        />
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="truncate text-sm font-semibold text-slate-700 dark:text-slate-300">
+                              {vertical.name}
+                            </span>
+                            <span className="inline-flex shrink-0 items-center gap-1.5 text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                              <span className="h-1.5 w-1.5 rounded-full bg-slate-400 dark:bg-slate-600" />
+                              {vertical.status}
+                            </span>
+                          </div>
+                          <p className="mt-0.5 line-clamp-1 text-xs text-slate-500 dark:text-slate-400">
+                            {vertical.shortDescription}
+                          </p>
+                          <div className="mt-1 font-mono text-[11px] text-slate-400 dark:text-slate-500">
+                            {vertical.subdomain}
+                          </div>
                         </div>
                       </div>
-                    </a>
-                  ))}
+                    )
+                  )}
                 </div>
 
                 <div className="mt-2 border-t border-slate-200/80 pt-2 dark:border-slate-800">
@@ -269,30 +304,44 @@ export function Navbar() {
               Ecosystem Apps
             </p>
             <div className="mt-2 space-y-1">
-              {verticals.map((vertical) => (
-                <a
-                  key={vertical.slug}
-                  href={vertical.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-900"
-                >
-                  <span className="flex items-center gap-2 font-medium">
-                    <span
-                      className={cn(
-                        "h-2 w-2 rounded-full",
-                        statusDotClass(vertical.status)
-                      )}
-                    />
-                    {vertical.name}
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-xs text-indigo-600 dark:text-indigo-400">
-                    {vertical.status}
-                    <ExternalLink className="h-3 w-3" />
-                  </span>
-                </a>
-              ))}
+              {verticals.map((vertical) =>
+                vertical.isLive ? (
+                  <a
+                    key={vertical.slug}
+                    href={vertical.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-900"
+                  >
+                    <span className="flex items-center gap-2 font-medium">
+                      <span
+                        className={cn(
+                          "h-2 w-2 rounded-full",
+                          statusDotClass(vertical.status)
+                        )}
+                      />
+                      {vertical.name}
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-xs text-indigo-600 dark:text-indigo-400">
+                      {vertical.status}
+                      <ExternalLink className="h-3 w-3" />
+                    </span>
+                  </a>
+                ) : (
+                  <div
+                    key={vertical.slug}
+                    aria-disabled="true"
+                    className="flex cursor-not-allowed items-center justify-between rounded-xl px-3 py-2 text-sm text-slate-400 opacity-55 dark:text-slate-500"
+                  >
+                    <span className="flex items-center gap-2 font-medium">
+                      <span className="h-2 w-2 rounded-full bg-slate-400 dark:bg-slate-600" />
+                      {vertical.name}
+                    </span>
+                    <span className="text-xs">{vertical.status}</span>
+                  </div>
+                )
+              )}
             </div>
           </div>
 

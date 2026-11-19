@@ -88,12 +88,18 @@ export function VerticalsGrid() {
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filtered.map((vertical) => {
             const isGithubPrimary = vertical.url.includes("github.com");
+            const disabled = !vertical.isLive;
 
             return (
               <Card
                 key={vertical.slug}
-                interactive
-                className="flex flex-col justify-between p-6"
+                interactive={!disabled}
+                aria-disabled={disabled || undefined}
+                className={cn(
+                  "flex flex-col justify-between p-6",
+                  disabled &&
+                    "border-dashed bg-slate-100/60 opacity-60 grayscale dark:bg-slate-900/35"
+                )}
               >
                 <div>
                   <div className="flex items-start justify-between gap-3">
@@ -119,14 +125,17 @@ export function VerticalsGrid() {
 
                   {/* Status Pill */}
                   <div className="mt-4">
-                    <Badge variant={getStatusVariant(vertical.status)}>
+                    <Badge
+                      variant={disabled ? "default" : getStatusVariant(vertical.status)}
+                    >
                       <span
                         className={cn(
                           "h-1.5 w-1.5 rounded-full",
-                          vertical.status === "Live" && "bg-emerald-500",
-                          vertical.status === "Beta" && "bg-violet-500",
-                          vertical.status === "In Development" && "bg-sky-500",
-                          vertical.status === "Coming Soon" && "bg-amber-500"
+                          disabled
+                            ? "bg-slate-400 dark:bg-slate-500"
+                            : vertical.status === "Live"
+                            ? "bg-emerald-500"
+                            : "bg-violet-500"
                         )}
                       />
                       <span>{vertical.statusLabel}</span>
@@ -141,16 +150,22 @@ export function VerticalsGrid() {
 
                 {/* Actions Footer */}
                 <div className="mt-6 flex items-center justify-between gap-3 border-t border-slate-200/80 pt-4 dark:border-slate-800/80">
-                  <Link
-                    href={`/verticals/${vertical.slug}`}
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-slate-600 transition-colors hover:text-slate-950 dark:text-slate-400 dark:hover:text-white"
-                  >
-                    <span>Overview</span>
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
+                  {disabled ? (
+                    <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                      Not live yet
+                    </span>
+                  ) : (
+                    <Link
+                      href={`/verticals/${vertical.slug}`}
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-slate-600 transition-colors hover:text-slate-950 dark:text-slate-400 dark:hover:text-white"
+                    >
+                      <span>Overview</span>
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
+                  )}
 
                   <div className="flex items-center gap-3">
-                    {vertical.githubUrl && !isGithubPrimary && (
+                    {!disabled && vertical.githubUrl && !isGithubPrimary && (
                       <a
                         href={vertical.githubUrl}
                         target="_blank"
@@ -161,17 +176,26 @@ export function VerticalsGrid() {
                         <Github className="h-4 w-4" />
                       </a>
                     )}
-                    <a
-                      href={vertical.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 transition-colors hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
-                    >
-                      <span>
-                        {isGithubPrimary ? "View on GitHub" : "Launch App"}
+                    {disabled ? (
+                      <span
+                        aria-disabled="true"
+                        className="inline-flex cursor-not-allowed items-center gap-1.5 text-xs font-semibold text-slate-400 dark:text-slate-500"
+                      >
+                        <span>{vertical.status}</span>
                       </span>
-                      <ExternalLink className="h-3.5 w-3.5" />
-                    </a>
+                    ) : (
+                      <a
+                        href={vertical.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 transition-colors hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+                      >
+                        <span>
+                          {isGithubPrimary ? "View on GitHub" : "Launch App"}
+                        </span>
+                        <ExternalLink className="h-3.5 w-3.5" />
+                      </a>
+                    )}
                   </div>
                 </div>
               </Card>

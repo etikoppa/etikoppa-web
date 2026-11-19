@@ -67,22 +67,38 @@ export function Footer() {
             </h3>
             <ul className="mt-4 space-y-2.5 text-sm">
               {verticals.map((vertical) => (
-                <li key={vertical.slug} className="flex items-center justify-between gap-2">
-                  <Link
-                    href={`/verticals/${vertical.slug}`}
-                    className="text-slate-600 transition-colors hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400"
-                  >
-                    {vertical.name}
-                  </Link>
-                  <a
-                    href={vertical.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Open ${vertical.name}`}
-                    className="text-slate-400 transition-colors hover:text-indigo-500"
-                  >
-                    <ExternalLink className="h-3.5 w-3.5" />
-                  </a>
+                <li
+                  key={vertical.slug}
+                  className="flex items-center justify-between gap-2"
+                >
+                  {vertical.isLive ? (
+                    <>
+                      <Link
+                        href={`/verticals/${vertical.slug}`}
+                        className="text-slate-600 transition-colors hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400"
+                      >
+                        {vertical.name}
+                      </Link>
+                      <a
+                        href={vertical.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Open ${vertical.name}`}
+                        className="text-slate-400 transition-colors hover:text-indigo-500"
+                      >
+                        <ExternalLink className="h-3.5 w-3.5" />
+                      </a>
+                    </>
+                  ) : (
+                    <>
+                      <span className="cursor-not-allowed text-slate-400 opacity-60 dark:text-slate-500">
+                        {vertical.name}
+                      </span>
+                      <span className="text-[11px] text-slate-400 dark:text-slate-600">
+                        {vertical.status}
+                      </span>
+                    </>
+                  )}
                 </li>
               ))}
             </ul>

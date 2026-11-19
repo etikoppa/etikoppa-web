@@ -13,6 +13,7 @@ import {
   serviceDivisions,
   type ServiceIconKey,
 } from "@/config/services";
+import { getVerticalBySlug } from "@/config/verticals";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { cn } from "@/lib/utils";
@@ -105,14 +106,23 @@ export function ServicesBento() {
                   <span>Discuss a project</span>
                   <ArrowUpRight className="h-3.5 w-3.5" />
                 </Link>
-                {service.relatedVerticalSlug && (
-                  <Link
-                    href={`/verticals/${service.relatedVerticalSlug}`}
-                    className="text-xs font-medium text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                  >
-                    Related Vertical →
-                  </Link>
-                )}
+                {(() => {
+                  if (!service.relatedVerticalSlug) return null;
+                  const related = getVerticalBySlug(service.relatedVerticalSlug);
+                  if (!related) return null;
+                  return related.isLive ? (
+                    <Link
+                      href={`/verticals/${related.slug}`}
+                      className="text-xs font-medium text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                    >
+                      {related.name} →
+                    </Link>
+                  ) : (
+                    <span className="cursor-not-allowed text-xs font-medium text-slate-400 opacity-60 dark:text-slate-500">
+                      {related.name} ({related.status})
+                    </span>
+                  );
+                })()}
               </div>
             </Card>
           ))}

@@ -10,7 +10,6 @@ import { siteConfig } from "@/config/site";
 import { verticals } from "@/config/verticals";
 import { Badge } from "@/components/ui/Badge";
 import { buttonVariants } from "@/components/ui/Button";
-import { cn } from "@/lib/utils";
 
 export function Hero() {
   const liveCount = verticals.filter((v) => v.status === "Live").length;
@@ -92,37 +91,48 @@ export function Hero() {
             </div>
 
             <div className="mt-4 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
-              {verticals.slice(0, 4).map((vertical) => (
-                <a
-                  key={vertical.slug}
-                  href={vertical.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center justify-between gap-2 rounded-xl border border-slate-200/80 bg-slate-50/70 px-3.5 py-2.5 transition-all hover:border-indigo-500/40 hover:bg-white dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-indigo-500/40 dark:hover:bg-slate-900"
-                >
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span
-                        className={cn(
-                          "h-2 w-2 shrink-0 rounded-full",
-                          vertical.status === "Live"
-                            ? "bg-emerald-500"
-                            : vertical.status === "In Development"
-                            ? "bg-sky-500"
-                            : "bg-amber-500"
-                        )}
-                      />
-                      <span className="truncate text-sm font-semibold text-slate-900 dark:text-white">
-                        {vertical.name}
-                      </span>
+              {verticals.slice(0, 4).map((vertical) =>
+                vertical.isLive ? (
+                  <a
+                    key={vertical.slug}
+                    href={vertical.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center justify-between gap-2 rounded-xl border border-slate-200/80 bg-slate-50/70 px-3.5 py-2.5 transition-all hover:border-indigo-500/40 hover:bg-white dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-indigo-500/40 dark:hover:bg-slate-900"
+                  >
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-500" />
+                        <span className="truncate text-sm font-semibold text-slate-900 dark:text-white">
+                          {vertical.name}
+                        </span>
+                      </div>
+                      <p className="mt-0.5 truncate font-mono text-[11px] text-slate-500 dark:text-slate-400">
+                        {vertical.subdomain}
+                      </p>
                     </div>
-                    <p className="mt-0.5 truncate font-mono text-[11px] text-slate-500 dark:text-slate-400">
-                      {vertical.subdomain}
-                    </p>
+                    <ArrowUpRight className="h-4 w-4 shrink-0 text-slate-400 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-indigo-500" />
+                  </a>
+                ) : (
+                  <div
+                    key={vertical.slug}
+                    aria-disabled="true"
+                    className="flex cursor-not-allowed items-center justify-between gap-2 rounded-xl border border-dashed border-slate-200/80 bg-slate-100/50 px-3.5 py-2.5 opacity-55 grayscale select-none dark:border-slate-800/80 dark:bg-slate-950/40"
+                  >
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="h-2 w-2 shrink-0 rounded-full bg-slate-400 dark:bg-slate-600" />
+                        <span className="truncate text-sm font-semibold text-slate-600 dark:text-slate-400">
+                          {vertical.name}
+                        </span>
+                      </div>
+                      <p className="mt-0.5 truncate font-mono text-[11px] text-slate-400 dark:text-slate-500">
+                        {vertical.status}
+                      </p>
+                    </div>
                   </div>
-                  <ArrowUpRight className="h-4 w-4 shrink-0 text-slate-400 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-indigo-500" />
-                </a>
-              ))}
+                )
+              )}
             </div>
           </div>
         </div>

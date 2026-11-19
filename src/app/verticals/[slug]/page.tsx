@@ -122,27 +122,46 @@ export default async function VerticalDetailPage({
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
-              <a
-                href={vertical.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={buttonVariants({ variant: "primary", size: "md" })}
-              >
-                <span>
-                  {isGithubPrimary ? "View on GitHub" : `Launch ${vertical.name}`}
-                </span>
-                <ExternalLink className="h-4 w-4" />
-              </a>
-              {vertical.githubUrl && !isGithubPrimary && (
-                <a
-                  href={vertical.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={buttonVariants({ variant: "outline", size: "md" })}
-                >
-                  <Github className="h-4 w-4" />
-                  <span>GitHub</span>
-                </a>
+              {vertical.isLive ? (
+                <>
+                  <a
+                    href={vertical.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={buttonVariants({ variant: "primary", size: "md" })}
+                  >
+                    <span>
+                      {isGithubPrimary ? "View on GitHub" : `Launch ${vertical.name}`}
+                    </span>
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
+                  {vertical.githubUrl && !isGithubPrimary && (
+                    <a
+                      href={vertical.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={buttonVariants({ variant: "outline", size: "md" })}
+                    >
+                      <Github className="h-4 w-4" />
+                      <span>GitHub</span>
+                    </a>
+                  )}
+                </>
+              ) : (
+                <>
+                  <span
+                    aria-disabled="true"
+                    className="inline-flex h-10 cursor-not-allowed items-center justify-center rounded-xl border border-slate-300 bg-slate-100 px-5 text-sm font-semibold text-slate-400 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-500"
+                  >
+                    {vertical.status}
+                  </span>
+                  <Link
+                    href="/#contact"
+                    className={buttonVariants({ variant: "outline", size: "md" })}
+                  >
+                    Request Early Access
+                  </Link>
+                </>
               )}
             </div>
           </div>
